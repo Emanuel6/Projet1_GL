@@ -19,3 +19,11 @@ trouvepetit = {
         liste.findAll { it.size() <= 4 }.each { println it }
 }
 trouvepetit(["Eric", "Jean-Claude", "Paul-Edouard","Luc"])
+
+int fib(int n) {
+    n < 2 ? 1 : fib(n-1) + fib(n-2)
+}
+assert fib(10)==89
+
+myObject = new aGroovyClass(); //no def needed
+println myObject.myString;
