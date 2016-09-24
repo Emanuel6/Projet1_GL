@@ -1,29 +1,21 @@
-variable1 = "Homme"
-variable2 = 12
+Pret pret = new Pret("test","1992-06-27","10000.00", "36", "0.02")
 
-if (variable1 == "Homme" && variable2 > 6 )
-    println "Hello, tu es rentré dans le test!"
 
-helloWorld = {String nom, String profession -> println "Hello $nom, laisse moi regarde ma boule de cristal...tu es $profession"}
-helloWorld("eric","informaticien")
+pret.versementMensuel = pret.getVersementMensuel()
+println (pret.versementMensuel.toString())
 
-affiche = {value -> println(value);}
-affiche(['a','b','c'])
+for (i = 0; i <= pret.nbPeriod; i++){
 
-def c = { arg1, arg2-> println "${arg1} ${arg2}" }
-def d = c.curry("Ici")
-d("Zebra 3")
+    pret.interetMois = pret.getInteretMois()
 
-trouvepetit = {
-    liste->
-        liste.findAll { it.size() <= 4 }.each { println it }
+    // FIXME : test pour voir les donner : a mettre dans un tableau
+    println(pret.arrondiDixieme(pret.interetMois))
+
+    pret.solde = pret.getNouveauSolde()
 }
-trouvepetit(["Eric", "Jean-Claude", "Paul-Edouard","Luc"])
 
-int fib(int n) {
-    n < 2 ? 1 : fib(n-1) + fib(n-2)
-}
-assert fib(10)==89
 
-myObject = new aGroovyClass(); //no def needed
-println myObject.myString;
+
+
+
+
