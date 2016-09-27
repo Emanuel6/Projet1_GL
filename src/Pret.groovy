@@ -7,6 +7,11 @@ class Pret {
     BigDecimal versementMensuel
     BigDecimal interetMois
     BigDecimal solde
+    ArrayList<BigDecimal> listSoldeDebut
+    ArrayList<BigDecimal> listInteret
+    ArrayList<BigDecimal> listCapital
+    ArrayList<BigDecimal> listSoldeFin
+
 
     Pret (String scenario, String date, String montantInit, String nbPeriod, String taux){
         this.scenario = scenario
@@ -15,6 +20,10 @@ class Pret {
         this.taux = validerNombre(new BigDecimal(taux))
         this.date = Date.parse("yyyy-MM-dd", date)
         this.solde = this.montantInit
+        this.listSoldeDebut = new ArrayList<>()
+        this.listInteret = new ArrayList<>()
+        this.listCapital = new ArrayList<>()
+        this.listSoldeFin = new ArrayList<>()
     }
 
     def validerNombre (montant){
@@ -23,15 +32,19 @@ class Pret {
     }
 
     def getVersementMensuel (){
-        versementMensuel = (montantInit *taux ) / (1-((1 + taux)**(-nbPeriod)));
+        arrondiDixieme((montantInit *taux ) / (1-((1 + taux)**(-nbPeriod))))
     }
 
     def getInteretMois (){
-        interetMois = (solde * taux)
+        arrondiDixieme(solde * taux)
     }
 
     def getNouveauSolde () {
-        solde - (versementMensuel - interetMois)
+        arrondiDixieme(solde - (versementMensuel - interetMois))
+    }
+
+    def getCapital () {
+        arrondiDixieme(versementMensuel - interetMois)
     }
 
     def arrondiDixieme (BigDecimal nb) {
