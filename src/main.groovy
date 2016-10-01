@@ -1,29 +1,35 @@
 import groovy.json.JsonSlurper
+import java.nio.file.Paths
 
-Pret pret = new Pret("test","1992-06-27","10000.00", "36", "0.02")
+final String jsonPath = "ressources/pretTest.json"
+def pretInfosJSON
+JsonSlurper slurper = new JsonSlurper()
 
-File f = new File("D:\\Hubic\\BAC_INFO\\2016_Automne\\INF5153_GL\\Projet1_GL\\pretTest.json")
+Paths.get(jsonPath).withReader { reader ->
+    pretInfosJSON = slurper.parse(reader)
+}
 
-def inputJSON = new JsonSlurper().parseText(f)
+Pret pret = new Pret(pretInfosJSON.scenario,pretInfosJSON.datePret,pretInfosJSON.montantInitial,
+        pretInfosJSON.nombrePeriodes, pretInfosJSON.tauxPeriodique)
 
+// calcul versement mensuel
 pret.versementMensuel = pret.getVersementMensuel()
-println (pret.versementMensuel.toString())
 
 for (i = 0; i < pret.nbPeriod; i++){
 
     pret.listSoldeDebut.add(pret.solde)
+
+    // calcul interet et maj de la liste
     pret.interetMois =  pret.getInteretMois()
     pret.listInteret.add(pret.interetMois)
+    // calcul capital et maj de la liste
     pret.listCapital.add(pret.getCapital())
+    // calcul du nouveau solde et maj de la liste
     pret.solde = pret.getNouveauSolde()
     pret.listSoldeFin.add(pret.solde)
 
-
 }
 
-
-// FIXME : test
-println("test")
 
 
 
